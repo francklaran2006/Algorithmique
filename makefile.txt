@@ -1,0 +1,44 @@
+# Makefile pour le projet Rummikub
+# Auteurs: [Votre Groupe]
+# Date: Décembre 2025
+
+# Compilateur
+CC = gcc
+
+# Options de compilation
+CFLAGS = -Wall -std=c99
+
+# Nom de l'exécutable
+EXEC = rummikub
+
+# Fichiers sources
+SRC = src/main.c src/tuiles.c src/regles.c src/joueur.c src/partie.c
+
+# Fichiers objets (générés automatiquement à partir des .c)
+OBJ = $(SRC:.c=.o)
+
+# Règle par défaut
+all: $(EXEC)
+
+# Règle pour créer l'exécutable
+$(EXEC): $(OBJ)
+	$(CC) -o $@ $^
+	@echo "Compilation terminee! Lancez avec ./$(EXEC)"
+
+# Règle pour compiler les fichiers .c en .o
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Règle pour nettoyer les fichiers compilés
+clean:
+	rm -f $(OBJ) $(EXEC)
+	@echo "Fichiers temporaires supprimes"
+
+# Règle pour tout nettoyer et recompiler
+rebuild: clean all
+
+# Pour lancer le programme après compilation
+run: all
+	./$(EXEC)
+
+.PHONY: all clean rebuild run
